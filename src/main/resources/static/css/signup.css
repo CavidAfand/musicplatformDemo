@@ -1,0 +1,29 @@
+body {
+	background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+}
+
+.header {
+	font-family: 'Calligraffitti';
+	font-size: 40px;
+	color: white;
+	text-align: center;
+}
+
+
+.signup-center {
+	margin-top: 80px;
+}
+
+.signup-box {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	background-color: #cfc8cd;
+	color: black;
+	border: 3px inset #4d78ff;
+	border-radius: 15px;
+	padding: 20px;
+}
+
+.req {
+	color: red;
+}

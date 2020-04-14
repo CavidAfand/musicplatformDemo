@@ -1,0 +1,53 @@
+.navbar-brand {
+    font-family: 'Calligraffitti';
+    font-size:30px;
+    padding-right: 15px;
+}
+
+.left-side {
+    margin-top: 15px;
+    padding: 20px;
+}
+
+.left-side img {
+    width: 100%;
+    height: 250px;
+}
+
+.right-side {
+    padding: 15px;
+}
+
+.info-head {
+    font-family: 'Amaranth';
+}
+
+.info-content {
+    font-family: 'Aref Ruqaa';
+}
+
+.personal-information {
+    margin-top: 15px;
+}
+
+.personal-information h2 {
+    text-align: center;
+    font-family: 'Aladin';
+}
+
+.statistic-information {
+    margin-top: 15px;
+}
+
+.statistic-information h2 {
+    text-align: center;
+    font-family: 'Aladin';
+}
+
+.logout {
+    font-family: 'Belgrano';
+}
+
+.chImage {
+    margin-top: 10px;
+}

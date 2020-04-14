@@ -13,8 +13,14 @@ public class MusicplatformApplication {
 
 	public static void main(String[] args) throws IOException {
 		String saveFolder = System.getProperty("user.dir") + "\\uploads\\";
-		Path directory = Paths.get(saveFolder);
-		Files.createDirectories(directory);
+		Files.createDirectories(Paths.get(saveFolder));
+
+		saveFolder = System.getProperty("user.dir") + "\\postUploads\\";
+		Files.createDirectories(Paths.get(saveFolder));
+
+		saveFolder = System.getProperty("user.dir") + "\\musicUploads\\";
+		Files.createDirectories(Paths.get(saveFolder));
+
 		SpringApplication.run(MusicplatformApplication.class, args);
 	}
 

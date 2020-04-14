@@ -45,6 +45,9 @@ public class Band implements Artist, PlatformUser {
     @ManyToMany(mappedBy = "bands")
     private Set<Listener> listeners;
 
+    @OneToMany(mappedBy = "band")
+    private List<Post> posts;
+
     @Transient
     public static final String authority = "BAND";
 

@@ -7,18 +7,18 @@ import com.musicplatform.entities.markers.PlatformUser;
 import com.musicplatform.repositories.BandRepository;
 import com.musicplatform.repositories.ListenerRepository;
 import com.musicplatform.repositories.MusicianRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.jws.WebParam;
 
+@Slf4j
 @Controller
 public class IndexController {
 
@@ -33,9 +33,7 @@ public class IndexController {
 
 
     @GetMapping("/")
-    public ModelAndView enterIndexPage(Authentication authentication) {
-
-        ModelAndView mv = new ModelAndView("/index");
+    public String enterIndexPage(Authentication authentication, Model model, @ModelAttribute("type") String type) {
 
         PlatformUser platformUser = getPlatformUser(authentication.getName());
 
@@ -43,30 +41,23 @@ public class IndexController {
 
 
         if (platformUser instanceof Listener) {
-            System.out.println("1 - listener");
-            mv.addObject("user",platformUser);
-            mv.addObject("platformUser", "listener");
-
+            log.info(authentication.getName() + " entered platform");
+            return "redirect:listener/index";
         }
         else if (platformUser instanceof Musician) {
-            System.out.println("2 - musician");
-            mv.addObject("user",platformUser);
-            mv.addObject("platformUser", "musician");
-
+            log.info(authentication.getName() + " entered platform");
+            return "redirect:musician/index";
         }
         else if (platformUser instanceof Band) {
-            System.out.println("3 - band");
-            mv.addObject("user",platformUser);
-            mv.addObject("platformUser", "band");
-
+            log.info(authentication.getName() + " entered platform");
+            return "redirect:band/index";
         }
         else {
-            ModelAndView errorView = new ModelAndView("redirect:error");
-            errorView.addObject("error", "Something went wrong.");
-            return errorView;
+            log.error("Error happened in index page");
+            model.addAttribute("error", "Something went wrong.");
+            return "redirect:error";
         }
 
-        return mv;
     }
 
     private PlatformUser getPlatformUser(String username) {
@@ -81,5 +72,6 @@ public class IndexController {
 
         return null;
     }
+
 
 }

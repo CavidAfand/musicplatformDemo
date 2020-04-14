@@ -53,10 +53,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/login")
                 .and()
-                .authorizeRequests().antMatchers("/testImage").permitAll()
-                .and()
                 .authorizeRequests().antMatchers("/").hasAnyAuthority(Listener.authority, Band.authority, Musician.authority)
                 .and()
-                .authorizeRequests().antMatchers("/home").hasAnyAuthority(Listener.authority, Band.authority, Musician.authority);
+                .authorizeRequests().antMatchers("/home").hasAnyAuthority(Listener.authority, Band.authority, Musician.authority)
+                .and()
+                .authorizeRequests().antMatchers("/listener/**").hasAnyAuthority(Listener.authority)
+                .and()
+                .authorizeRequests().antMatchers("/musician/**").hasAnyAuthority(Musician.authority)
+                .and()
+                .authorizeRequests().antMatchers("/band/**").hasAnyAuthority(Band.authority)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/testImage").permitAll()
+                .antMatchers("/error").permitAll();
     }
 }

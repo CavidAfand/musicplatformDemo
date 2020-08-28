@@ -1,9 +1,7 @@
 package com.musicplatform.entities;
 
 
-import com.musicplatform.entities.markers.Artist;
 import lombok.*;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
@@ -12,7 +10,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-//@ToString
 @NoArgsConstructor
 public class Music {
 
@@ -39,7 +36,7 @@ public class Music {
     @ManyToOne
     private Band band;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="musics_and_genres",
             joinColumns = @JoinColumn(name="music_id"),

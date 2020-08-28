@@ -1,6 +1,6 @@
 package com.musicplatform.entities;
 
-import com.musicplatform.entities.markers.Artist;
+
 import com.musicplatform.entities.markers.PlatformUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;

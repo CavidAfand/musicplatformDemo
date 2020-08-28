@@ -1,15 +1,15 @@
 <%--
   Created by IntelliJ IDEA.
   User: Asus
-  Date: 3/29/2020
-  Time: 1:19 AM
+  Date: 4/29/2020
+  Time: 6:51 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Home | ${user.name} ${user.surname}</title>
+    <title>${musician.name} ${musician.surname}'s songs | ${user.name} ${user.surname}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -25,7 +25,7 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="../js/home_action.js"></script>
 </head>
-<body onload="${action}()">
+<body>
 
     <!-- navbar -->
     <jsp:include page="components/navbar.jsp"></jsp:include>
@@ -38,31 +38,37 @@
             <jsp:include page="components/left_side.jsp"></jsp:include>
             <!-- -->
 
-            <!-- Personal information -->
-            <div class="col-sm-4">
-                <div class="personal-information shadow p-4 mb-4 bg-white">
-                    <h2>Personal information</h2>
-                    <hr>
-                    <div class="information">
-                        <p><span class="info-head"><b>Gender: </b></span><span class="info-content">${user.gender}</span></p>
-                        <p><span class="info-head"><b>Date: </b></span><span class="info-content">${user.date}</span></p>
-                        <p><span class="info-head"><b>Email: </b></span><span class="info-content">${user.email}</span></p>
-                        <p><span class="info-head"><b>Username: </b></span><span class="info-content">${user.username}</span></p>
-                    </div>
-                </div>
-            </div>
-            <!-- -->
+            <div class="col-sm-7">
 
-            <!-- Statistical information -->
-            <div class="col-sm-3">
-                <div class="statistic-information shadow p-4 mb-4 bg-white">
-                    <h2>Statistical information</h2>
-                    <hr>
-                    <p><span class="info-head"><b>Number of your liked musics:</b> </span><span class="info-content">${user.likedMusics.size()}</span></p>
-                    <p><span class="info-head"><b>Number of your liked artists:</b> </span><span class="info-content">${user.musicians.size() + user.bands.size()}</span></p>
+                <div class="music-content shadow p-4 mb-4 bg-white">
+
+                    <h3 class="content-header">${musician.name} ${musician.surname} (${musician.nickName})'s songs</h3>
+
+                    <c:forEach var="music" items="${musicList}">
+                        <div class="card music-card shadow-sm p-4 mb-4 bg-white">
+                            <div class="card-body">
+                                <h2><span class="music-name">${music.musicName}</span></h2>
+                                <h3 class="music-artist">Author: <span><b><a href="/listener/musician/${music.musician.username}">${music.musician.name} ${music.musician.surname} (${music.musician.nickName})</a></b></span></h3>
+                                <p><span class="music-genre">Genres: </span>
+                                    <c:forEach items="${music.genres}" var="genre">
+                                        <span><a href="/listener/genre/${genre.genre}">${genre.genre}</a></span>
+                                    </c:forEach>
+                                </p>
+                                <p>Liked by ${music.listeners.size()} listeners</p>
+                                <audio controls>
+                                    <source src="${music.musicPath}">
+                                </audio>
+                            </div>
+                        </div>
+                    </c:forEach>
+
+                    <!-- Pagination -->
+                    <jsp:include page="components/musicianSong_pagination.jsp"></jsp:include>
+                    <!-- -->
+
                 </div>
+
             </div>
-            <!-- -->
 
             <!-- right side -->
             <jsp:include page="components/right_side.jsp"></jsp:include>

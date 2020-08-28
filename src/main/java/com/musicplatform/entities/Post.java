@@ -1,14 +1,13 @@
 package com.musicplatform.entities;
 
-import lombok.Data;
-import lombok.ToString;
-
+import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Data
-@ToString
+@Getter
+@Setter
+@NoArgsConstructor
 public class Post {
 
     @Id
@@ -30,5 +29,22 @@ public class Post {
 
     @ManyToOne
     private Band band;
+
+    @PrePersist
+    protected void getCurrentDate() {
+        this.date = LocalDate.now();
+    }
+
+    public Post(String text, String imagePath, Musician musician) {
+        this.text = text;
+        this.imagePath = imagePath;
+        this.musician = musician;
+    }
+
+    public Post(String text, String imagePath, Band band) {
+        this.text = text;
+        this.imagePath = imagePath;
+        this.band = band;
+    }
 
 }

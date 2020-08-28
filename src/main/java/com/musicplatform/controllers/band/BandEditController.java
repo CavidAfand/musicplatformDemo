@@ -1,8 +1,8 @@
-package com.musicplatform.controllers.musician;
+package com.musicplatform.controllers.band;
 
-import com.musicplatform.entities.Musician;
+import com.musicplatform.entities.Band;
 import com.musicplatform.exceptions.NotImageException;
-import com.musicplatform.repositories.MusicianRepository;
+import com.musicplatform.repositories.BandRepository;
 import com.musicplatform.services.fileServices.ImageUpload;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,25 +19,25 @@ import java.time.LocalDate;
 
 @Slf4j
 @Controller
-public class MusicianEditController {
-
-    @Autowired
-    private MusicianRepository musicianRepository;
+public class BandEditController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @PostMapping("/musician/change_image")
-    public String changePhoto(@RequestParam("image") MultipartFile image, @RequestParam("original_name") String name,
-                              Authentication auth, RedirectAttributes redirectAttributes)
-    {
+    @Autowired
+    private BandRepository bandRepository;
 
+    @PostMapping("/band/change_image")
+    public String changePhoto(@RequestParam("image") MultipartFile image,
+                              @RequestParam("original_name") String name,
+                              Authentication auth,
+                              RedirectAttributes redirectAttributes) {
         try {
             String newImageName = ImageUpload.checkAndChangeImage(image, auth.getName(), name);
             if (!newImageName.equals(name)) {
-                Musician musician = musicianRepository.findByUsername(auth.getName());
-                musician.setImagePath(newImageName);
-                musicianRepository.save(musician);
+                Band band = bandRepository.findByUsername(auth.getName());
+                band.setImagePath(newImageName);
+                bandRepository.save(band);
             }
             log.info(auth.getName() + " has updated image successfully.");
         }
@@ -53,58 +53,42 @@ public class MusicianEditController {
 
         redirectAttributes.addFlashAttribute("action","photo");
 
-        return "redirect:/musician/index";
-
+        return "redirect:/band/index";
     }
 
-    @PostMapping("/musician/change_password")
+    @PostMapping("/band/change_password")
     public String changePassword(@RequestParam("currentPassword") String currentPassword,
                                  @RequestParam("newPassword") String newPassword,
                                  RedirectAttributes redirectAttributes,
                                  Authentication auth) {
 
-        Musician musician = musicianRepository.findByUsername(auth.getName());
+        Band band = bandRepository.findByUsername(auth.getName());
 
-
-        if (!passwordEncoder.matches(currentPassword, musician.getPassword())) {
+        if (!passwordEncoder.matches(currentPassword, band.getPassword())) {
             log.warn(auth.getName() + " entered wrong password to change his password");
             redirectAttributes.addFlashAttribute("error","You entered wrong password");
             return "redirect:../error";
         }
 
-        musician.setPassword(passwordEncoder.encode(newPassword));
-        musicianRepository.save(musician);
+        band.setPassword(passwordEncoder.encode(newPassword));
+        bandRepository.save(band);
         log.info(auth.getName() + " changed his password");
 
         redirectAttributes.addFlashAttribute("action", "password");
 
-        return "redirect:/musician/index";
+        return "redirect:/band/index";
     }
 
-    @PostMapping("/musician/edit_information")
-    public String changeInformation(@RequestParam("name") String name,
-                                    @RequestParam("surname") String surname,
-                                    @RequestParam("nickname") String nickName,
+    @PostMapping("/band/edit_information")
+    public String changeInformation(@RequestParam("name") String bandName,
                                     @RequestParam("date") String date,
                                     Authentication auth,
                                     RedirectAttributes redirectAttributes) {
-        try {
-            Musician musician = musicianRepository.findByUsername(auth.getName());
-            musician.setName(name);
-            musician.setSurname(surname);
-            musician.setNickName(nickName);
-            musician.setDate(LocalDate.parse(date));
-            musicianRepository.save(musician);
-            log.info(auth.getName() + " changed information");
-            redirectAttributes.addFlashAttribute("action", "editInfo");
-            return "redirect:/musician/index";
-        }
-        catch (Exception ex) {
-            log.error("Error happened when " + auth.getName() + " edited information");
-            redirectAttributes.addFlashAttribute("error", "Something went wrong");
-            return "redirect:../error";
-        }
+        Band band = bandRepository.findByUsername(auth.getName());
+        band.setBandName(bandName);
+        band.setDate(LocalDate.parse(date));
+        bandRepository.save(band);
+        redirectAttributes.addFlashAttribute("action","editInfo");
+        return "redirect:/band/index";
     }
-
-
 }

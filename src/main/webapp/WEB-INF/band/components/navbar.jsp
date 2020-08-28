@@ -9,7 +9,7 @@
 
 <!-- navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand"  href="/">Music Platform</a>
+    <a class="navbar-brand"  href="/band/index">Music Platform</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarDemo" aria-controls="navbarDemo" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -19,11 +19,11 @@
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
             <li class="nav-item ">
-                <a class="nav-link" href="/musician/music" ><b>Musics</b></a>
+                <a class="nav-link" href="/band/music" ><b>Musics</b></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/musician/post"><b>Posts</b></a>
+                <a class="nav-link" href="/band/post"><b>Posts</b></a>
             </li>
 
             <li class="nav-item dropdown">
@@ -66,7 +66,7 @@
 
                 <!-- modal body -->
                 <div class="modal-body">
-                    <form action="/musician/upload_music" method="post" enctype="multipart/form-data">
+                    <form action="/band/upload_music" method="post" enctype="multipart/form-data">
 
                         <div class="form-group">
                             <label for="name">Music name</label>
@@ -119,7 +119,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form action="/musician/upload_post" method="post" enctype="multipart/form-data">
+                    <form action="/band/upload_post" method="post" enctype="multipart/form-data">
 
                         <div class="form-group">
                             <label for="text">Text</label>
@@ -157,7 +157,7 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form action="/musician/change_password" method="post">
+                    <form action="/band/change_password" method="post">
 
                         <div class="form-group">
                             <label for="currentPass">Current password</label>
@@ -195,21 +195,11 @@
 
                 <!-- Modal content -->
                 <div class="modal-body">
-                    <form action="/musician/edit_information" method="post">
+                    <form action="/band/edit_information" method="post">
 
                         <div class="form-group">
                             <label for="edit_name">Name</label>
-                            <input type="text" name="name" id="edit_name" class="form-control" value="${user.name}" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit_surname">Surname</label>
-                            <input type="text" name="surname" id="edit_surname" class="form-control" value="${user.surname}" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit_nickname">Nickname</label>
-                            <input type="text" name="nickname" id="edit_nickname" class="form-control" value="${user.nickName}">
+                            <input type="text" name="name" id="edit_name" class="form-control" value="${user.bandName}" required>
                         </div>
 
                         <div class="form-group">

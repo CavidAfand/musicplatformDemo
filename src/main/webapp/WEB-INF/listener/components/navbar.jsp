@@ -19,21 +19,23 @@
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
             <li class="nav-item ">
-                <a class="nav-link" href="/musician/music" ><b>Musics</b></a>
+                <a class="nav-link" href="/listener/all_music" ><b>Songs</b></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/musician/post"><b>Posts</b></a>
+                <a class="nav-link" href="/listener/all_posts"><b>Posts</b></a>
             </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarShare" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Share
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarShare">
-                    <a class="dropdown-item" data-toggle="modal" data-target="#musicModal">Music</a>
-                    <a class="dropdown-item" data-toggle="modal" data-target="#postModal">Post</a>
-                </div>
+            <li class="nav-item">
+                <a class="nav-link" href="/listener/musicians"><b>Musicians</b></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/listener/bands"><b>Bands</b></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="modal" data-target="#musicGenres">Genres</a>
             </li>
 
             <li class="nav-item dropdown">
@@ -53,91 +55,33 @@
 
 <!-- Modals -->
 
-    <!-- Music modal -->
-    <div class="modal" id="musicModal">
+    <!-- Music genres modal -->
+    <div class="modal" id="musicGenres">
         <div class="modal-dialog">
             <div class="modal-content">
-                <!-- modal header -->
+
+                <!-- Modal header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Upload music file</h4>
+                    <h4 class="modal-title">Select your favourite genres to see songs</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- -->
 
-                <!-- modal body -->
+                <!-- -->
                 <div class="modal-body">
-                    <form action="/musician/upload_music" method="post" enctype="multipart/form-data">
-
-                        <div class="form-group">
-                            <label for="name">Music name</label>
-                            <input type="text" name="name" id="name" placeholder="Name" class="form-control" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="info">Additional information</label>
-                            <textarea name="information" id="info" class="form-control"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="musicFile">Music</label>
-                            <input type="file" name="musicFile" id="musicFile" class="form-control" required>
-                        </div>
-
-                        <div>
-                            <span>Genres:</span><br>
-                            <c:forEach items="${genres}" var="genre">
-                                <div class="form-check-inline">
-                                    <label class="form-check-label" for="${genre}">
-                                        <input type="checkbox" class="form-check-input" id="${genre}" name="genre" value="${genre}">${genre}
-                                    </label>
-                                </div>
-                            </c:forEach>
-                        </div>
-                        <br>
-
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-                        <button type="submit" class="btn btn-success btn-block">Upload</button>
-
-                    </form>
+                    <div class="card-columns">
+                        <c:forEach items="${genres}" var="genre">
+                            <div class="card bg-light">
+                                <a href="/listener/genre/${genre}" class="card-link">
+                                    <div class="card-body text-center">
+                                        <p class="card-text">${genre}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </c:forEach>
+                    </div>
                 </div>
                 <!-- -->
-
-            </div>
-        </div>
-    </div>
-    <!-- -->
-
-    <!-- Post modal -->
-    <div class="modal" id="postModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Create new post</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <div class="modal-body">
-                    <form action="/musician/upload_post" method="post" enctype="multipart/form-data">
-
-                        <div class="form-group">
-                            <label for="text">Text</label>
-                            <textarea name="text" id="text" class="form-control"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="image">Image</label>
-                            <input type="file" name="image" id="image" class="form-control">
-                        </div>
-
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-
-                        <button type="submit" class="btn btn-success btn-block">Create post</button>
-
-                    </form>
-                </div>
-
             </div>
         </div>
     </div>
@@ -157,7 +101,7 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form action="/musician/change_password" method="post">
+                    <form action="/listener/change_password" method="post">
 
                         <div class="form-group">
                             <label for="currentPass">Current password</label>
@@ -195,7 +139,7 @@
 
                 <!-- Modal content -->
                 <div class="modal-body">
-                    <form action="/musician/edit_information" method="post">
+                    <form action="/listener/edit_information" method="post">
 
                         <div class="form-group">
                             <label for="edit_name">Name</label>
@@ -205,11 +149,6 @@
                         <div class="form-group">
                             <label for="edit_surname">Surname</label>
                             <input type="text" name="surname" id="edit_surname" class="form-control" value="${user.surname}" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit_nickname">Nickname</label>
-                            <input type="text" name="nickname" id="edit_nickname" class="form-control" value="${user.nickName}">
                         </div>
 
                         <div class="form-group">

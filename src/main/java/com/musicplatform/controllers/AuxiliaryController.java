@@ -1,9 +1,15 @@
 package com.musicplatform.controllers;
 
 import com.musicplatform.modelAttributes.SignUpData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class AuxiliaryController {
@@ -19,10 +25,18 @@ public class AuxiliaryController {
         return new ModelAndView("/successful_registration");
     }
 
+    @Autowired
+    private SessionRegistry sessionRegistry;
 
-    @GetMapping("testImage")
-    public String test() {
-        return "testImage";
+    @GetMapping("/user_sessions")
+    public String getUsers(Model model) {
+        List<String> list = sessionRegistry.getAllPrincipals().stream()
+                .filter(u -> !sessionRegistry.getAllSessions(u, false).isEmpty())
+                .map(Object::toString)
+                .collect(Collectors.toList());
+        model.addAttribute("list", list);
+        return "/user_sessions";
     }
+
 
 }

@@ -14,9 +14,7 @@
         </div>
         <hr>
         <div class="information">
-            <p><span class="info-head"><b>Name: </b></span><span class="info-content">${user.name}</span></p>
-            <p><span class="info-head"><b>Surname: </b></span><span class="info-content">${user.surname}</span></p>
-            <p><span class="info-head"><b>Nick name: </b></span><span class="info-content">${user.nickName}</span></p>
+            <p><span class="info-head"><b>Name: </b></span><span class="info-content">${user.bandName}</span></p>
         </div>
     </div>
 </div>
@@ -36,7 +34,7 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="/musician/change_image" method="post" enctype="multipart/form-data">
+                <form action="/band/change_image" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="changedImage">Image</label>
                         <input type="file" name="image" id="changedImage" class="form-control" required>

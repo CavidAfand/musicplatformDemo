@@ -47,6 +47,7 @@ public class MusicUpload {
 
     private static boolean checkMusic(MultipartFile file) {
         String fileContentType = file.getContentType();
+        System.out.println("Music type: " + fileContentType );
         if (contentTypes.contains(fileContentType)) {
             return true;
         }

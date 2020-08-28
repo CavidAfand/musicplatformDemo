@@ -16,11 +16,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Random;
 
 @Controller
-@SessionAttributes({"email","number"})
 public class SignUpController {
 
     @Autowired
@@ -59,15 +59,16 @@ public class SignUpController {
     }
 
     @GetMapping("/signup_listener")
-    public ModelAndView getListenerSignUp(Model model) {
+    public String getListenerSignUp(RedirectAttributes redirectAttributes) {
         if (SignUpData.listenerSignUpRequest == false) {
-            ModelAndView mv = new ModelAndView("redirect:error");
-            mv.addObject("error", "Page not found");
-            return mv;
+
+            redirectAttributes.addFlashAttribute("error","Page not found");
+            return "redirect:error";
         }
-        model.addAttribute("listener", new ListenerForm());
+        redirectAttributes.addFlashAttribute("listener", new ListenerForm());
         SignUpData.listenerSignUpRequest = false;
-        return new ModelAndView("redirect:sing_up/signup_listener");
+//        return new ModelAndView("redirect:sing_up/signup_listener");
+        return "redirect:sign_up/signup_listener";
     }
 
     @PostMapping("/signup_musician")

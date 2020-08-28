@@ -8,16 +8,32 @@
 
 <div class="col-sm-3">
     <div class="left-side shadow p-4 mb-4 bg-white">
+
+        <!-- Image -->
         <div class="image-container">
             <img src="${user.imagePath}" class="img-fluid mx-auto d-block img-thumbnail">
             <button type="button" class="btn btn-primary btn-block chImage" data-toggle="modal" data-target="#changeImage">Change photo</button>
         </div>
+        <!-- -->
+
         <hr>
+
+        <!-- General info -->
         <div class="information">
             <p><span class="info-head"><b>Name: </b></span><span class="info-content">${user.name}</span></p>
             <p><span class="info-head"><b>Surname: </b></span><span class="info-content">${user.surname}</span></p>
-            <p><span class="info-head"><b>Nick name: </b></span><span class="info-content">${user.nickName}</span></p>
         </div>
+        <!-- -->
+
+        <hr>
+
+        <!-- Listener links -->
+        <div class="listener-links">
+            <a href="/listener/liked_music" class="btn btn-dark btn-block">Liked Songs</a>
+            <a href="/listener/liked_artists" class="btn btn-dark btn-block">Liked Artists</a>
+        </div>
+        <!-- -->
+
     </div>
 </div>
 
@@ -36,7 +52,7 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="/musician/change_image" method="post" enctype="multipart/form-data">
+                <form action="/listener/change_image" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="changedImage">Image</label>
                         <input type="file" name="image" id="changedImage" class="form-control" required>

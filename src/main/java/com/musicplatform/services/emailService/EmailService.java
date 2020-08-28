@@ -45,7 +45,7 @@ public class EmailService {
     private String protocol;
 
     @Autowired
-    private JavaMailSenderImpl mailSender;// = new JavaMailSenderImpl();
+    private JavaMailSenderImpl mailSender;
 
     private void emailServiceConfiguration() {
         mailSender.setHost(host);

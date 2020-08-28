@@ -12,4 +12,5 @@ public interface BandRepository extends JpaRepository<Band, Integer> {
 
     @Query(value = "select b from Band b where b.username = :username")
     public Band findByUsername(@Param("username") String username);
+
 }

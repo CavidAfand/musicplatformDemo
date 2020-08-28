@@ -31,27 +31,18 @@ public class ImageUpload {
             throw new NotImageException();
         }
 
-        deleteImage(System.getProperty("user.dir") + previousImageName);
+        try {
+            deleteImage(System.getProperty("user.dir") + previousImageName);
+        }
+        catch (Exception ex) {
+
+        }
 
         String imageName = getImageName(image.getOriginalFilename(), filename);
 
-//        String imagePath = "\\uploads\\" + imageName;
-
-        String imagePath =  saveImage(image, saveFolderForPost, folderForPost, imageName);
-
-//        try {
-//            String saveFolder = System.getProperty("user.dir") + "\\uploads\\";
-//            byte [] bytes = image.getBytes();
-//            imagePath = "\\uploads\\" + imageName;
-//            Path path = Paths.get(saveFolder + imageName);
-//            Files.write(path, bytes);
-//        }
-//        catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
+        String imagePath =  saveImage(image, saveFolderForProfile, folderForProfile, imageName);
 
         return imagePath;
-
     }
 
     public static String checkAndSaveImage(MultipartFile image, String fileName) throws IOException, NotImageException {
@@ -67,6 +58,20 @@ public class ImageUpload {
         return imagePath;
     }
 
+    public static String checkAndSavePostImage(MultipartFile image, String filename) throws IOException, NotImageException {
+
+        if (checkImage(image) == false) {
+            throw new NotImageException();
+        }
+
+        String imageName = getImageName(image.getOriginalFilename(), filename + System.currentTimeMillis());
+
+        String imagePath = saveImage(image, saveFolderForPost, folderForPost, imageName);
+
+        return imagePath;
+
+    }
+
     private static String saveImage(MultipartFile file, String generalFolderName, String dbFolderName, String imageName) {
         try {
             byte [] bytes = file.getBytes();
@@ -80,7 +85,7 @@ public class ImageUpload {
         }
     }
 
-    private static boolean checkImage(MultipartFile name) throws IOException {
+    public static boolean checkImage(MultipartFile name) {
         String fileContentType = name.getContentType();
         if (contentTypes.contains(fileContentType)) {
             return true;

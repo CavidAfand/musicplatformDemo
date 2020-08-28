@@ -1,14 +1,11 @@
-package com.musicplatform.controllers.musician;
+package com.musicplatform.controllers.band;
 
-import com.musicplatform.entities.Music;
-import com.musicplatform.entities.MusicGenre;
-import com.musicplatform.entities.Musician;
-import com.musicplatform.entities.Post;
+import com.musicplatform.entities.*;
 import com.musicplatform.exceptions.NotImageException;
 import com.musicplatform.exceptions.NotMusicException;
+import com.musicplatform.repositories.BandRepository;
 import com.musicplatform.repositories.MusicGenresRepository;
 import com.musicplatform.repositories.MusicRepository;
-import com.musicplatform.repositories.MusicianRepository;
 import com.musicplatform.repositories.PostRepository;
 import com.musicplatform.services.fileServices.ImageUpload;
 import com.musicplatform.services.fileServices.MusicUpload;
@@ -22,33 +19,31 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 
 @Slf4j
 @Controller
-public class MusicianUploadController {
+public class BandUploadController {
 
     @Autowired
-    MusicGenresRepository musicGenresRepository;
+    private BandRepository bandRepository;
 
     @Autowired
-    MusicianRepository musicianRepository;
+    private MusicGenresRepository musicGenresRepository;
 
     @Autowired
-    MusicRepository musicRepository;
+    private MusicRepository musicRepository;
 
     @Autowired
-    PostRepository postRepository;
+    private PostRepository postRepository;
 
-    @PostMapping("/musician/upload_music")
+    @PostMapping("/band/upload_music")
     public String uploadMusic(@RequestParam("name") String name,
                               @RequestParam("information") String information,
                               @RequestParam("musicFile") MultipartFile musicFile,
-                              @RequestParam("genre")Set<String> genres,
+                              @RequestParam("genre") Set<String> genres,
                               Authentication auth,
                               RedirectAttributes redirectAttributes) {
-
         Set<MusicGenre> genreList = musicGenresRepository.findAllByGenreIn(genres);
 
         String musicPath = null;
@@ -60,23 +55,23 @@ public class MusicianUploadController {
             return "redirect:../error";
         }
 
-        Musician musician = musicianRepository.findByUsername(auth.getName());
+        Band band = bandRepository.findByUsername(auth.getName());
 
-        Music music = new Music(name, information, musicPath, musician, genreList);
+        Music music = new Music(name, information, musicPath, band, genreList);
 
         musicRepository.save(music);
-        musician.getMusicianMusicList().add(music);
-        musicianRepository.save(musician);
+        band.getBandMusicList().add(music);
+        bandRepository.save(band);
 
 
         log.info(auth.getName() + " uploaded music: " + music.getMusicPath());
         redirectAttributes.addFlashAttribute("action","music");
-        return "redirect:/musician/index";
+        return "redirect:/band/index";
     }
 
-    @PostMapping("/musician/upload_post")
-    public String uploadPost(@RequestParam(value = "text") String text,
-                             @RequestParam(value = "image") MultipartFile image,
+    @PostMapping("/band/upload_post")
+    public String uploadPost(@RequestParam("text") String text,
+                             @RequestParam("image") MultipartFile image,
                              Authentication auth,
                              RedirectAttributes redirectAttributes) {
 
@@ -105,15 +100,14 @@ public class MusicianUploadController {
             }
         }
 
-        Musician musician = musicianRepository.findByUsername(auth.getName());
-        Post post = new Post(text, imagePath, musician);
+        Band band = bandRepository.findByUsername(auth.getName());
+        Post post = new Post(text, imagePath, band);
         postRepository.save(post);
-        musician.getPosts().add(post);
-        musicianRepository.save(musician);
+        band.getPosts().add(post);
+        bandRepository.save(band);
 
         log.info(auth.getName() + " has created new post");
         redirectAttributes.addFlashAttribute("action", "post");
-        return "redirect:/musician/index";
+        return "redirect:/band/index";
     }
-
 }
